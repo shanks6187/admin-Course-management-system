@@ -40,6 +40,8 @@ export default () => {
   };
   let Navigate = useNavigate()
   let handleLogin = (value:any)=>{
+    console.log(value);
+    
     UserLoginActive(value,dispatch,Navigate)
   }
 

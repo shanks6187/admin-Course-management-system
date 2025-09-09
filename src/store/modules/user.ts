@@ -25,7 +25,9 @@ let initialState:IinitialStateType={
 }
     
 let info = store2.get('class-admin-userinfo') || store2.session.get('class-admin-userinfo')
+
 if(info){
+    
     initialState.isLogin=true
     initialState.isLoading=false
     initialState.userInfo=info
@@ -59,6 +61,7 @@ let user = createSlice({
             state.isLoading=false
             state.userInfo=null
             store2.remove('class-admin-userinfo')
+            store2.session.remove('class-admin-userinfo')
         },
         loginUpdate(state,actions){
             console.log(actions);
@@ -78,12 +81,15 @@ export const UserLoginActive = (params:IUserLoginParamas,dispatch:Dispatch,Navig
     dispatch(loginstart())
         
     setTimeout(()=>{
+        
         UserLogin(params)
         .then((res:any)=>{
             dispatch(loginsuccess({userinfo:res.data,autoLodin:params.autoLogin}))
             Navigate('/')
         })
         .catch((err:any)=>{
+            console.log('err:'+err);
+            
             dispatch(loginfail())
         })
     }, 1000);

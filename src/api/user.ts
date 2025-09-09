@@ -22,8 +22,9 @@ export const UserUpdate = (userInfo:string,params:UserUpdateParams)=>{
 //新增角色
 export interface RoleType {
     objectId:string,
-    roleName:string,
-    checkedkeys:Array<string>
+    name:string,
+    checkedKeys:Array<string>,
+    idx:number
 }
 export const rolePost = (roleObj:RoleType)=>{
     return request.post('classes/ReactRole1',roleObj)
@@ -32,4 +33,40 @@ export const rolePost = (roleObj:RoleType)=>{
 //获取角色
 export const roleGet = ()=>{
     return request.get('classes/ReactRole1')
+}
+//修改角色
+export const rolePut = (objectId:string,value:RoleType)=>{
+    return request.put(`classes/ReactRole1/${objectId}`,value)
+}
+//删除角色
+export const roleDelete = (objectId:string)=>{
+    return request.delete(`classes/ReactRole1/${objectId}`)
+}
+
+//批量删除角色
+export const RolebatchDelete = (obj:React.Key[])=>{
+    let requests =  obj.map((id)=>{
+        return {
+            'method':'DELETE',
+            'path':`/1.1/classes/ReactRole1/${id}`
+        }
+    })
+    console.log(requests);
+    return request.post(`batch`,{requests})
+}
+
+//注册账号
+interface UserType {
+    objectId:string,
+    username:string,
+    password:string,
+    roleId:string,
+    roleName:string
+}
+export const userPost = (Userobj:UserType)=>{
+    return request.post('classes/_users',Userobj)
+}
+
+export const userGet = ()=>{
+    return request.get('classes/_users')
 }

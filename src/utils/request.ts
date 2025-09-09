@@ -14,9 +14,14 @@ const instance = axios.create({
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // if(config.url?.indexOf('users')!=-1&&config.method=='put'){
-      let {sessionToken} = store2.get('class-admin-userinfo')||store2.session.get('class-admin-userinfo')
+    
+      let data = store2.get('class-admin-userinfo')||store2.session.get('class-admin-userinfo')
+      if(data&& data.sessionToken){
+        console.log('进来了');
+        
+        config.headers['X-LC-Session']=data.sessionToken
+      }
       
-      config.headers['X-LC-Session']=sessionToken
     // }
     return config;
   }, function (error) {
