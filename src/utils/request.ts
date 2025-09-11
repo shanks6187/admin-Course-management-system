@@ -17,7 +17,7 @@ instance.interceptors.request.use(function (config) {
     
       let data = store2.get('class-admin-userinfo')||store2.session.get('class-admin-userinfo')
       if(data&& data.sessionToken){
-        console.log('进来了');
+        // console.log('进来了');
         
         config.headers['X-LC-Session']=data.sessionToken
       }

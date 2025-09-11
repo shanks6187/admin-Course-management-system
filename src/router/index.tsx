@@ -1,6 +1,6 @@
 import { AreaChartOutlined,SettingOutlined,UserOutlined,UnorderedListOutlined } from '@ant-design/icons'
 import { IMenuType } from './inder'
-import Dashboard   from '@/views/dashboard'
+import Dashboard   from '@/views/dashboard/dashboard'
 import ArticleList from '@/views/Course/ArticleList'
 import Category from '@/views/Course/Category'
 import ArticlePub from '@/views/Course/components/ArticlePub'
@@ -8,6 +8,7 @@ import ArticleEdit from '@/views/Course/components/ArticleEdit'
 import Role from '@/views/Manager/Role'
 import User from '@/views/Manager/Userpage'
 import Usersetting from '@/views/usersetting'
+import Map from '@/views/map/index'
 
 export const mainRoutes: IMenuType[] = [
   
@@ -74,6 +75,12 @@ export const mainRoutes: IMenuType[] = [
         label: '个人设置',
         title: '个人设置',
         element: <Usersetting />,
+        icon: <UserOutlined />
+      },{
+        key: '/map',
+        label: '高德地图',
+        title: '高德地图',
+        element: <Map />,
         icon: <UserOutlined />
       }
 ];

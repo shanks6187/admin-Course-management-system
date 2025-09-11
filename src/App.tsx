@@ -4,7 +4,7 @@ import { Route, Routes,Navigate } from 'react-router-dom';
 import Login from '@/views/login'
 import ArticleList from '@/views/Course/ArticleList'
 import Category from '@/views/Course/Category'
-import Dashboard from '@/views/dashboard'
+import Dashboard from '@/views/dashboard/dashboard'
 import AuthRequite from '@/guard/AuthRequire'
 import { renderRoutes } from '@/router/utils'
 function App() {

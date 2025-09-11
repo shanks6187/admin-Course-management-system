@@ -6,13 +6,15 @@ import { Button, Col, Drawer, Dropdown, Image, Popconfirm, RadioChangeEvent, Row
 import { DrawerProps } from 'antd/lib';
 import { useEffect, useRef, useState } from 'react';
 import Userform from '@/views/Manager/components/Userform'
-import { RolebatchDelete, roleDelete, roleGet, RoleType, userGet } from '@/api/user';
+import { RolebatchDelete, roleDelete, roleGet, RoleType, UserDelete, userGet } from '@/api/user';
 import { TableRowSelection } from 'antd/es/table/interface';
+import { log } from 'node:console';
 
 
 export default function () {
   const actionRef = useRef<ActionType | any>('');
   const [open, setOpen] = useState(false);
+  //展示权限分配列表
   const [Listdata, setdata] = useState<RoleType[]>([]);
   const [RuleData ,setRuleData] = useState<RoleType |null>(null)
   const [placement, setPlacement] = useState<DrawerProps['placement']>('right');
@@ -54,32 +56,27 @@ export default function () {
 ];
 
   useEffect(() => {
-    roleGet().then(res => {
-      setdata(res.data.results) //权限
+    
+    userGet().then(res=>{
+        console.log(res);
+        setdata(res.data.results)
     })
     
-        userGet().then(res=>{
-            console.log(res);
-            setdata(res.data.results)
-        })
   }, [])
 
   const onClose = () => {
     setOpen(false);
   };
 
+  //处理删除数据
   const handleyes = (record:RoleType,index:number)=>{
       console.log(record,index);
-      roleDelete(record.objectId).then(res=>{
-        // roleGet().then(res => {
-        //   console.log(res);
-        //   setdata(res.data.results)
-        // })
+      UserDelete(record.objectId).then(res=>{
         Listdata.splice(index,1)
         setdata([...Listdata])
       })
   }
-
+  //新增角色
   const onshowtips = () => {
     setRuleData(null)
     setOpen(true);
@@ -102,8 +99,8 @@ export default function () {
     }
     setdata([...Listdata]);
   }
+  //列表批量选择选项  获取objectId
   const handleChange = (newSelectedRowKeys: React.Key[])=>{
-    console.log(newSelectedRowKeys);
     setSelectedRowKeys([...newSelectedRowKeys])
   }
 

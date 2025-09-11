@@ -43,6 +43,7 @@ export const appBreadcrumbRoutes = () => {
     return obj
 }
 
+//权限树状图数据处理函数
 export const appTreeRoutes = () => {
     // 返回树形结构，适用于权限树、菜单树等
     function traverse(router: any[]): any[] {

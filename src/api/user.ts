@@ -31,8 +31,9 @@ export const rolePost = (roleObj:RoleType)=>{
 }
 
 //获取角色
-export const roleGet = ()=>{
-    return request.get('classes/ReactRole1')
+export const roleGet = (role:string="")=>{
+    let params = role ?`/${role}`:""
+    return request.get(`classes/ReactRole1${params}`)
 }
 //修改角色
 export const rolePut = (objectId:string,value:RoleType)=>{
@@ -70,3 +71,23 @@ export const userPost = (Userobj:UserType)=>{
 export const userGet = ()=>{
     return request.get('classes/_users')
 }
+
+//删除账号
+export const UserDelete = (objectId:string)=>{
+    return request.delete(`classes/_users/${objectId}`)
+}
+
+
+
+
+// data ?,code string, message 
+
+interface Ire<T>{
+    data:T,
+    code:string,
+    message:string
+}
+export const UserDeletetext:Ire<Number> = (objectId:string)=>{
+    return request.delete(`classes/_users/${objectId}`)
+}
+

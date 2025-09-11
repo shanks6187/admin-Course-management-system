@@ -37,8 +37,10 @@ const App: React.FC<RoleformPropsType> = (props) => {
 
     const onFinish = (values: any) => {
         let { objectId, name } = select[values.idx] //根据下表拿到select的数据
-        values.objectId = objectId
+        values.roleId = objectId
         values.roleName = name
+        console.log(values);
+        
         userPost(values).then((res) => {
             console.log(res);
         })
@@ -65,7 +67,6 @@ const App: React.FC<RoleformPropsType> = (props) => {
                     <Button type="primary" htmlType="submit">
                         {props.RuleData ? "编辑角色" : "新增账号"}
                     </Button>
-
                 </Space>
             </Form.Item>
         </Form>

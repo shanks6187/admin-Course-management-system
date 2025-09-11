@@ -3,6 +3,9 @@ import { Menu, MenuProps } from 'antd';
 import { mainRoutes } from '@/router'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IMenuType } from '@/router/inder';
+import { useSelector, TypedUseSelectorHook } from 'react-redux';
+import { RootState } from '@/store';
+import { IuserInfoType } from '@/store/modules/user';
 
 
 export default function App() {
@@ -10,8 +13,8 @@ export default function App() {
   let [openKeys, setopenKeys] = useState('')
   let navigate = useNavigate()
   let location = useLocation()
+
   useEffect(() => {
-    
     if (location.pathname === '/') {
       setselectKey('/dashboard')
     } else {
@@ -20,6 +23,7 @@ export default function App() {
     let h = location.pathname.split("/")[1]
     setopenKeys(`/${h}`)
   }, [])
+  
   useEffect(() => {
     if (location.pathname === '/') {
       setselectKey('/dashboard')
@@ -38,6 +42,7 @@ export default function App() {
   function OpenChange(openKeys: string[]) {
     setopenKeys(openKeys[1])
   }
+  //处理路由数据
   function convertRoutesToMenuItems(routes: any[]): MenuProps['items'] {
     return routes.map(route => {
       if (route.children && Array.isArray(route.children)) {
@@ -58,13 +63,17 @@ export default function App() {
     });
   }
 
-  const menuItems = convertRoutesToMenuItems(mainRoutes);
+  const menuItems = convertRoutesToMenuItems(mainRoutes); 
+  
+  let { checkList } = useSelector((store: RootState) => store.user.userInfo as IuserInfoType)
+
+
   let handleRouter = (routes: any) => {
     return routes.filter((item: any) => {
       if (item.children) {
         item.children = handleRouter(item.children)
       }
-      return !item.hiddent
+      return !item.hiddent && checkList.includes(item.key)
     })
   }
   return (

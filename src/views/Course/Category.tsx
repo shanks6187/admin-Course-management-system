@@ -3,6 +3,10 @@ import { Grid, Row, Space, Table, Tag, Button, Modal, Switch } from 'antd';
 import type { TableProps } from 'antd';
 import CategoryForm from './components/CategoryForm';
 import { CategoryGet, CategoryPut, CategoryType } from '@/api/course';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { IuserInfoType } from '@/store/modules/user';
+import { userAppSelector } from '@/store/modules/hook';
 
 
 
@@ -10,6 +14,8 @@ const Category: React.FC = () => {
 
   let [isModalOpen, setisModalOpen] = useState(false)
   let [CategoryList, setCategoryList] = useState([])
+  let user = userAppSelector(store=>store.user.userInfo as IuserInfoType  )
+  
 
   interface TableCategoryType extends CategoryType {
     children: CategoryType[]
@@ -41,7 +47,9 @@ const Category: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button type='primary'>编辑</Button>
-          <Button type='primary' danger>删除</Button>
+          {
+            user.roleName=='超级管理员'?<Button type='primary' danger>删除</Button>:""
+          }
         </Space>
       ),
     },
@@ -71,6 +79,7 @@ const Category: React.FC = () => {
   useEffect(() => {
     CategoryGet({}).then(res => {
       let { results } = res.data
+      
       //拿到所有父级类目
       let arr = results.filter((item: CategoryType) => item.fatherId == '0-01')
       arr.forEach((item: TableCategoryType) => {

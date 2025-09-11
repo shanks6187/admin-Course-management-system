@@ -1,4 +1,4 @@
-import { UserLogin,IUserLoginParamas } from '@/api/user';
+import { UserLogin,IUserLoginParamas, roleGet } from '@/api/user';
 import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import { NavigateFunction } from 'react-router-dom';
 import store2 from 'store2';
@@ -8,7 +8,11 @@ export interface IuserInfoType{
     objectId:string,
     sessionToken:string,
     avatar:string,
-    poster:string
+    poster:string,
+    checkedKeys:Array<string>,
+    checkList:Array<string>,
+    roleId:String,
+    roleName:String
 }
 
 export interface IinitialStateType{
@@ -38,7 +42,6 @@ let user = createSlice({
     initialState,
     reducers:{
         loginstart(state){
-            console.log(state);
             state.isLoading=true
         },
         loginsuccess(state,actions){
@@ -84,12 +87,14 @@ export const UserLoginActive = (params:IUserLoginParamas,dispatch:Dispatch,Navig
         
         UserLogin(params)
         .then((res:any)=>{
-            dispatch(loginsuccess({userinfo:res.data,autoLodin:params.autoLogin}))
-            Navigate('/')
+            // console.log(res); //用户详细
+            roleGet(res.data.roleId).then(role=>{
+                // console.log('role:'+role.data);
+                dispatch(loginsuccess({userinfo:{...res.data,...role.data},autoLodin:params.autoLogin}))
+                Navigate('/')
+            })
         })
         .catch((err:any)=>{
-            console.log('err:'+err);
-            
             dispatch(loginfail())
         })
     }, 1000);

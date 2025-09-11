@@ -81,7 +81,6 @@ export default function () {
     console.log(value);
     let istrue = true
     for(let i=0;i<Listdata.length;i++){
-      console.log(Listdata[i].objectId);
       if(Listdata[i].objectId==value.objectId){
         Listdata[i]=value
         istrue=false

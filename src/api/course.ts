@@ -16,9 +16,11 @@ export const CategoryPost=(object:CategoryType)=>{
     return request.post('/classes/ReactCategoryForm',object)
 }
 
-interface whereParms{
+export interface whereParms{
     fatherId?:string
 }
+
+//获取分类列表
 export const CategoryGet = (where:whereParms={fatherId:'0-01'})=>{
     return request.get('/classes/ReactCategoryForm',{
         params:{
